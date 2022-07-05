@@ -8,6 +8,6 @@ namespace ScraperWorker.Services
 {
     internal interface IScraperService
     {
-        Task ScrapeWebsite(string url);
+        Task<ScrapedResource> ScrapeWebsiteAsync(string url);
     }
 }
