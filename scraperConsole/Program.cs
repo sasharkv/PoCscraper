@@ -11,4 +11,6 @@ string url = "https://www.xuntos.nl/";
 var scraperService = new ScraperService();
 var result = await scraperService.ScrapeWebsiteAsync(url);
 Console.WriteLine(result.LinkedInURL);
+Console.WriteLine(result.TwitterURL);
+Console.WriteLine(result.InstagramURL);
 Console.ReadKey();  

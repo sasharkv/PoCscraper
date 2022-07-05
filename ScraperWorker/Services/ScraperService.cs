@@ -23,25 +23,45 @@ namespace ScraperWorker.Services
             var scrapedHtml = await httpResponseMessage.Content.ReadAsStringAsync(); 
             htmlDocument.LoadHtml(scrapedHtml); //loads an HTML document from string
 
-            string xpathLinkedInUrl = "//*[contains(@href, \"www.linkedin.com\")]";
-            var LinkedInUrl = htmlDocument.DocumentNode.SelectSingleNode(xpathLinkedInUrl); // this should get the link itself
-            if (LinkedInUrl != null)
+            List<string> listOfSocialUrlsXpaths = new List<string>
+                {"//*[contains(@href, \"www.linkedin.com\")]", 
+                "//*[contains(@href, \"www.twitter.com\")]", 
+                "//*[contains(@href, \"www.instagram.com\")]"};
+
+            List<HtmlNode> linkNodes = new List<HtmlNode>();
+
+            // check if the node exists and add it to the list
+            foreach (var xpath in listOfSocialUrlsXpaths)
             {
-                var ScrapedResource = new ScrapedResource()
+                var linkNode = htmlDocument.DocumentNode.SelectSingleNode(xpath);
+                if (linkNode != null)
                 {
-                    LinkedInURL = LinkedInUrl.Attributes["href"].Value
-                };
-
-                return ScrapedResource;
+                    linkNodes.Add(linkNode);
+                }
+                else
+                {
+                    Console.WriteLine("No link node for " + xpath);
+                }
             }
-            else
+
+            var scrapedResource = new ScrapedResource();
+
+            // add the value of existing nodes to the corresponding attribute of the scrapedResource object
+            foreach (var linkNode in linkNodes)
             {
-                Console.WriteLine("no LinkedInUrl");
+                if (linkNode.Attributes["href"].Value.Contains("www.linkedin.com"))
+                {
+                    scrapedResource.LinkedInURL = linkNode.Attributes["href"].Value;
+                }
+                else if (linkNode.Attributes["href"].Value.Contains("www.twitter.com"))
+                {
+                    scrapedResource.TwitterURL = linkNode.Attributes["href"].Value; 
+                }
+                else if (linkNode.Attributes["href"].Value.Contains("www.instagram.com"))
+                    scrapedResource.InstagramURL = linkNode.Attributes["href"].Value;
             }
 
-            Console.WriteLine(LinkedInUrl);
-
-            return default;
+            return scrapedResource;
         }
 
         private static async Task EnsureSuccessStatusCode(HttpResponseMessage httpResponseMessage)
