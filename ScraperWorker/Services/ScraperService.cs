@@ -24,9 +24,9 @@ namespace ScraperWorker.Services
             htmlDocument.LoadHtml(scrapedHtml); //loads an HTML document from string
 
             List<string> listOfSocialUrlsXpaths = new List<string>
-                {"//*[contains(@href, \"www.linkedin.com\")]", 
-                "//*[contains(@href, \"www.twitter.com\")]", 
-                "//*[contains(@href, \"www.instagram.com\")]"};
+                {"//a[contains(@href, \"linkedin.com\")]", 
+                "//a[contains(@href, \"twitter.com\")]", 
+                "//a[contains(@href, \"instagram.com\")]"};
 
             List<HtmlNode> linkNodes = new List<HtmlNode>();
 
@@ -49,15 +49,15 @@ namespace ScraperWorker.Services
             // add the value of existing nodes to the corresponding attribute of the scrapedResource object
             foreach (var linkNode in linkNodes)
             {
-                if (linkNode.Attributes["href"].Value.Contains("www.linkedin.com"))
+                if (linkNode.Attributes["href"].Value.Contains("linkedin.com"))
                 {
                     scrapedResource.LinkedInURL = linkNode.Attributes["href"].Value;
                 }
-                else if (linkNode.Attributes["href"].Value.Contains("www.twitter.com"))
+                else if (linkNode.Attributes["href"].Value.Contains("twitter.com"))
                 {
                     scrapedResource.TwitterURL = linkNode.Attributes["href"].Value; 
                 }
-                else if (linkNode.Attributes["href"].Value.Contains("www.instagram.com"))
+                else if (linkNode.Attributes["href"].Value.Contains("instagram.com"))
                     scrapedResource.InstagramURL = linkNode.Attributes["href"].Value;
             }
 

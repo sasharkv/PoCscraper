@@ -13,13 +13,13 @@ namespace ScraperFunction
     public static class Function1
     {
         [FunctionName("Function1")]
-        public static async Task<IActionResult> Run(
+        public static async Task<IActionResult> Run(                 // the Route is the url we have in Azure/API/Our function name
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string name = req.Query["name"]; // call the service here
+            string name = req.Query["name"];
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);

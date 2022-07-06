@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ScraperWorker.Services
 {
-    internal interface IScraperService
+    public interface IScraperService
     {
         Task<ScrapedResource> ScrapeWebsiteAsync(string url);
     }
