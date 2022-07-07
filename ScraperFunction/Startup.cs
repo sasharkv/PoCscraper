@@ -8,6 +8,8 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using ScraperWorker.Services;
 
+// https://docs.microsoft.com/en-ca/azure/azure-functions/functions-dotnet-dependency-injection
+//
 // We need this class to register services for DI.
 //
 // To set it up we need to:
@@ -19,7 +21,7 @@ using ScraperWorker.Services;
 
 namespace ScraperFunction
 {
-
+    // The Startup class runs once the Azure Functions host starts up and builds up the ServiceCollection used to resolve dependencies any time they are needed
     public class Startup : FunctionsStartup
     {
         public override void Configure(IFunctionsHostBuilder builder)
